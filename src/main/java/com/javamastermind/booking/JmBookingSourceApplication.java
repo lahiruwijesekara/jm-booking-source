@@ -28,7 +28,6 @@ public class JmBookingSourceApplication
     @Bean
     public Supplier<Booking> bookingOrder()
     {
-
         Supplier<Booking> bookingSupplier = () -> {
             Booking booking = new Booking(UUID.randomUUID().toString(), "100", "1200.00");
             log.info("{} {} for ${} for {}", booking.getStatus(), booking.getBookingTranUUId(),
