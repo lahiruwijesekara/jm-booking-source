@@ -1,10 +1,19 @@
-package com.javamastermind.booking.domain;
+package com.javamastermind.booking.model;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @author lahiru_w
  */
+
+@Document
 public class User
 {
+
+    @Id
+    private ObjectId _id;
 
     private String email;
 
@@ -42,10 +51,21 @@ public class User
         this.accountStatus = accountStatus;
     }
 
+    public ObjectId get_id()
+    {
+        return _id;
+    }
+
+    public void set_id(ObjectId _id)
+    {
+        this._id = _id;
+    }
+
     @Override
     public String toString()
     {
-        return "User [email=" + email + ", password=" + password + ", accountStatus=" + accountStatus + "]";
+        return "User [_id=" + _id + ", email=" + email + ", password=" + password + ", accountStatus=" + accountStatus
+            + "]";
     }
 
 }

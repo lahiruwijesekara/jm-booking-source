@@ -1,8 +1,7 @@
-package com.javamastermind.booking.domain;
+package com.javamastermind.booking.model;
 
 /**
  * @author lahiru_w
- *
  */
 public class Offers
 {
