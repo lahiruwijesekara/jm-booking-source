@@ -22,8 +22,9 @@ public class OfferServiceImpl implements OfferService
     {
         if ("premium".equals(user.getAccountStatus())) {
             return property.getOffers();
+        } else {
+            return null;
         }
-        return null;
     }
 
 }

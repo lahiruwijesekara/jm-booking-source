@@ -1,36 +1,36 @@
-package com.javamastermind.booking;
+package com.javamastermind.booking.service.impl;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
 import com.javamastermind.booking.domain.Booking;
 import com.javamastermind.booking.domain.Booking.RoomData;
 import com.javamastermind.booking.domain.Booking.Visitors;
+import com.javamastermind.booking.domain.PayRequest;
 import com.javamastermind.booking.enums.Statuses;
+import com.javamastermind.booking.service.PaymentService;
 
-/**
- * @author lahiru_w
- */
-@SpringBootApplication
-public class JmBookingSourceApplication
+@Service
+public class PaymentServiceImpl implements PaymentService
 {
-    private static final Logger log = LoggerFactory.getLogger(JmBookingSourceApplication.class);
 
-    public static void main(String[] args)
+    @Override
+    public boolean doPayment(PayRequest payRequest)
     {
-        SpringApplication.run(JmBookingSourceApplication.class, args);
-        log.info("Booking source application has started to run");
-    }
 
-    @Bean
-    public Supplier<Booking> bookingOrder()
+        if (Objects.nonNull(payRequest)) {
+            this.bookingOrder(payRequest);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public Supplier<Booking> bookingOrder(PayRequest payRequest)
     {
         Supplier<Booking> bookingSupplier = () -> {
             Booking booking = new Booking();
@@ -51,11 +51,22 @@ public class JmBookingSourceApplication
             visitors.setNoOfAdults("4");
             visitors.setNoOfChildren("1");
             booking.setVisitors(visitors);
-            log.info("{} {} for ${} for {}", booking.getStatus(), booking.getBookingTranUUId(),
-                booking.getBookedPrice(), booking.getUserId(), booking);
+            booking.setPayRequest(payRequest);
             return booking;
         };
+
         return bookingSupplier;
+    }
+
+    @Override
+    public boolean mockIpg(PayRequest payRequest)
+    {
+        Long amount = 5000000L;
+        if (Long.parseLong(payRequest.getAmount()) < amount) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
